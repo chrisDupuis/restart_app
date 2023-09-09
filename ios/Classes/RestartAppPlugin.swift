@@ -26,17 +26,31 @@ public class RestartAppPlugin: NSObject, FlutterPlugin {
   /// notification. Finally, it exits the app.
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
 
-    let args = call.arguments as? Dictionary<String, Any>,
-    let notifTitle = args["notifTitle"] as? String,
-
-    if call.method == "restartApp" {
+    if call.method == "restartApp",
+           let args = call.arguments as? Dictionary<String, AnyObject>,
+           let notifTitle = args["notifTitle"] as? String
+    {
       self.requestNotificationPermissions { granted in
-        if granted {
-          self.sendNotification(notifTitle: notifTitle)
-        }
-        exit(0)
-      }
+          if granted {
+            self.sendNotification(notifTitle: notifTitle)
+          }
+          exit(0)
+        }    
+    } else {
+      result(FlutterError.init(code: "errorSetDebug", message: "data or format error", details: nil))
     }
+
+    // let args = call.arguments as? Dictionary<String, Any>,
+    // let notifTitle = args["notifTitle"] as? String,
+
+    // if call.method == "restartApp" {
+    //   self.requestNotificationPermissions { granted in
+    //     if granted {
+    //       self.sendNotification(notifTitle: notifTitle)
+    //     }
+    //     exit(0)
+    //   }
+    // }
   }
 
   /// Requests notification permissions.
