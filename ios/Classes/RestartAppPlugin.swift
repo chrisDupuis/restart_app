@@ -32,7 +32,7 @@ public class RestartAppPlugin: NSObject, FlutterPlugin {
     if call.method == "restartApp" {
       self.requestNotificationPermissions { granted in
         if granted {
-          self.sendNotification(notifTitle)
+          self.sendNotification(notifTitle: notifTitle)
         }
         exit(0)
       }
@@ -63,6 +63,8 @@ public class RestartAppPlugin: NSObject, FlutterPlugin {
   private func sendNotification(notifTitle: String) {
     let content = UNMutableNotificationContent()
     content.title = notifTitle; // "Tap to open the app!"
+    // content.body = notifTitle; // "Tap to open the app!"
+
     content.sound = nil
 
     let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
