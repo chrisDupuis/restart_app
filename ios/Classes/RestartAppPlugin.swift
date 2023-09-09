@@ -25,10 +25,14 @@ public class RestartAppPlugin: NSObject, FlutterPlugin {
   /// If the method call is 'restartApp', it requests notification permissions and then sends a
   /// notification. Finally, it exits the app.
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+
+    if let args = call.arguments as? Dictionary<String, Any>,
+    let notifTitle = args["notifTitle"] as? String,
+
     if call.method == "restartApp" {
       self.requestNotificationPermissions { granted in
         if granted {
-          self.sendNotification()
+          self.sendNotification(notifTitle)
         }
         exit(0)
       }
@@ -56,9 +60,9 @@ public class RestartAppPlugin: NSObject, FlutterPlugin {
   ///
   /// This function sets up the notification content and trigger, creates a notification request,
   /// and then adds the request to the notification center.
-  private func sendNotification() {
+  private func sendNotification(notifTitle: String) {
     let content = UNMutableNotificationContent()
-    content.title = "Tap to open the app!"
+    content.title = notifTitle; // "Tap to open the app!"
     content.sound = nil
 
     let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)

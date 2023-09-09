@@ -38,7 +38,8 @@ class RestartWeb {
   Future<dynamic> handleMethodCall(MethodCall call) async {
     switch (call.method) {
       case 'restartApp':
-        return restart(call.arguments as String?);
+        // return restart(call.arguments as String?);
+        return restart(null);
       default:
         return 'false';
     }
